@@ -9,6 +9,7 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0', // allows access from other devices
-    port: 5173
+    // port: 5173
+    port: 6173
   }
 })
