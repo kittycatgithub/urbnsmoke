@@ -4,6 +4,7 @@ import ExploreMenu from '../components/ExploreMenu'
 import BestSeller from '../components/BestSeller'
 
 const Home = () => {
+  
   return (
     <div className=''>
         <HeroSlider/>

@@ -12,7 +12,7 @@ const ProductCard = ({product}) => {
         } } className="border border-gray-500/20 rounded-md md:px-4 p-2 bg-white max-w-80 w-80 md:w-80 hover:shadow-xl hover:scale-110 transition">
             <div className="flex flex-row gap-4">
                 <div className="group cursor-pointer flex items-center justify-center">
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image} alt={product.name} />
+                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36 h-24" src={`${import.meta.env.VITE_BACKEND_URL}/products/${product.image}` } alt={product.name} />
             </div>
             <div className="text-gray-500/60 text-sm">
                 <p>{product.category}</p>

@@ -2,18 +2,30 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { assets } from "../../assets/frontend-assets/assets";
 import { assets1 } from "../../assets/assets1";
+import toast from "react-hot-toast";
 
 const SellerLayout = () => {
 
-    const { isSeller, setIsSeller } = useAppContext()
+    const { axios,  navigate } = useAppContext()
 
     const sidebarLinks = [
         { name: "Add Product", path: "/seller", icon: assets1.add_icon },
         { name: "Product List", path: "/seller/product-list", icon: assets1.product_list_icon },
         { name: "Orders", path: "/seller/orders", icon: assets1.order_icon },
+        { name: "Dine Orders", path: "/seller/dineorders", icon: assets1.order_icon },
     ];
     const logout = async()=> {
-        setIsSeller(false)
+       try {
+           const {data} = await axios.get('/api/seller/logout')
+           if( data.success ){
+             toast.success(data.message)
+             navigate('/')
+           } else {
+                toast.error(data.message)
+           }
+       } catch (error) {
+            toast.error(error.message)
+       }
     }
 
     return (

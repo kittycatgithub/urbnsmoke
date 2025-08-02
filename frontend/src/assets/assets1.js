@@ -784,6 +784,67 @@ export const categories = [
     image: maggi_image,
     bgColor: "#E1F5EC",
   },
+  // Actual Products
+  {
+    text: "APPETIZERS",
+    path: "appetizers",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "BURGER",
+    path: "burger",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "SANDWICHES",
+    path: "sandwiches",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "MAIN COURSE",
+    path: "main-course",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "SALAD",
+    path: "salad",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "KIDS MEAL",
+    path: "kids-meal",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "MOCKTAIL & DRINKS",
+    path: "mocktail-and-drinks",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "EXTRAS",
+    path: "extras",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "DESSERT",
+    path: "dessert",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
+  {
+    text: "BAR BQ",
+    path: "bar-bq",
+    image: maggi_image,
+    bgColor: "#E1F5EC",
+  },
 ];
 export const actualProducts = [
   // Vegetables

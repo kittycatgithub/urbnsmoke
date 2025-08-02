@@ -3,14 +3,25 @@ import { assets } from "../assets/frontend-assets/assets"
 import { assets1 } from "../assets/assets1"
 import { NavLink } from "react-router-dom"
 import { useAppContext } from "../context/AppContext"
+import toast from "react-hot-toast" 
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
-    const { navigate, user, setUser, setShowUserLogin, searchQuery, setSearchQuery, getCartCount } = useAppContext()
+    const { navigate, user, setUser, setShowUserLogin, searchQuery, setSearchQuery, getCartCount, axios } = useAppContext()
 
-    const logout = () => {
-        setUser(null)
-        navigate('/')
+    const logout = async () => {
+        try {
+            const { data } = await axios.get('/api/user/logout')
+            if( data.success ){
+                toast.success(data.message)
+                setUser(null)
+                navigate('/')
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     useEffect( ()=>{
@@ -19,20 +30,32 @@ const Navbar = () => {
         }
     }, [searchQuery] )
 
+    // Language 
+    const { t, i18n  } = useAppContext()
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng)
+    }
+    
+
     return (
         <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
 
             <NavLink to="/" onClick={ ()=> setOpen(false) }>
-                <img className="h-16" src={assets.logo} alt="logo" />
+                <img className="h-24 -mb-4 -mt-4" src={assets.logo} alt="logo" />
             </NavLink>
             {/* Desktop Menu */}
             <div className="hidden sm:flex items-center gap-8">
-                <NavLink to="/">Home</NavLink>
-                <NavLink to="/about">About</NavLink>
-                <NavLink to="/all-menu">Menu</NavLink>
-                <NavLink to="/gallery">Gallery</NavLink>
-                <NavLink to="/contact">Contact</NavLink>
-                <NavLink to="/language">Language</NavLink>
+                <NavLink to="/" className="hover:text-green-600">Home</NavLink>
+                <NavLink to="/about" className="hover:text-green-600">About</NavLink>
+                <NavLink to="/all-menu" className="hover:text-green-600">Menu</NavLink>
+                {/* <NavLink to="/gallery" className="hover:text-green-600">Gallery</NavLink> */}
+                <NavLink to="/contact" className="hover:text-green-600">Contact</NavLink>
+                {/* <NavLink to="/language" className="hover:text-green-600">Language</NavLink> */}
+                <select defaultValue="en" onClick={(e)=> changeLanguage(e.target.value)} className="border-0 outline-0">
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                </select>
+                 {/* <!-- Navigation --> */}
 
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
                     <input onChange={ (e)=> setSearchQuery(e.target.value) } className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search Menu" />
@@ -80,13 +103,17 @@ const Navbar = () => {
             {/* Mobile Menu */}
            {
             open && 
-           (<div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-40`}>
+           (<div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-5 px-5 text-md md:hidden z-40`}>
                 <NavLink to="/" onClick={ ()=> setOpen(false) }>Home</NavLink>
                 <NavLink to="/about" onClick={ ()=> setOpen(false) }>About</NavLink>
-                <NavLink to="/menu" onClick={ ()=> setOpen(false) }>Menu</NavLink>
-                <NavLink to="/gallery" onClick={ ()=> setOpen(false) }>Gallery</NavLink>
+                <NavLink to="/all-menu" onClick={ ()=> setOpen(false) }>Menu</NavLink>
+                {/* <NavLink to="/gallery" onClick={ ()=> setOpen(false) }>Gallery</NavLink> */}
                 <NavLink to="/contact" onClick={ ()=> setOpen(false) }>Contact</NavLink>
-                <NavLink to="/language" onClick={ ()=> setOpen(false) }>Language</NavLink>
+                {/* <NavLink to="/language" onClick={ ()=> setOpen(false) }>Language</NavLink> */}
+                <select defaultValue="en" onClick={(e)=> changeLanguage(e.target.value)} className="border-0 outline-0">
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                </select>
                 {
                     user && <NavLink to="/my-orders" onClick={ ()=> setOpen(false) }>My Orders</NavLink>
                 }

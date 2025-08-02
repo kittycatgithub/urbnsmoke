@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
 import { useAppContext } from "../context/AppContext"
 import { assets1, dummyAddress } from "../assets/assets1"
+import toast from "react-hot-toast"
 
 const Cart = () => {
     const { products, currency, cart, removeFromCart, getCartCount, 
-      updateCartItem, navigate, getCartAmount } = useAppContext()
+      updateCartItem, navigate, getCartAmount, axios, user, setCart } = useAppContext()
       const [cartArray, setCartArray] = useState([])
-      const [addresses, setAddresses] = useState(dummyAddress)
+      const [addresses, setAddresses] = useState([])
       const [showAddress, setShowAddress] = useState(false)
-      const [selectedAddress, setSelectedAddress] = useState(dummyAddress[0])
+      const [selectedAddress, setSelectedAddress] = useState(null)
       const [paymentOption, setPaymentOption] = useState("Online")
 
       const getCart = (item) => {
@@ -20,6 +21,23 @@ const Cart = () => {
         }
         setCartArray(tempArray)
       }
+
+      const getUserAddress = async ()=> {
+        try {
+            const { data } = await axios.get('/api/address/get')
+            if(data.success){
+                setAddresses(data.addresses)
+                if( data.addresses.length > 0 ){
+                    setSelectedAddress(data.addresses[0])
+                }
+            } else{ 
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+      }
+
       useEffect(()=> {
         if(products.length > 0 && cart ){
           getCart()
@@ -27,8 +45,79 @@ const Cart = () => {
       }, [products, cart])
 
       const placeOrder = async () => {
-
+        try {
+            if(!selectedAddress){
+               return toast.error("Please Select Address")
+            }
+            // Place Order with Razorpay
+            if( paymentOption === "Online" ){
+                const {data} = await axios.post('/api/order/cod', {
+                    userId: user._id,
+                    items: cartArray.map( item => ({product: item._id, quantity: item.quantity})),
+                    address: selectedAddress._id
+                })
+                if( data.success ){
+                    // window.location.replace(data.url)
+                    // console.log(data)
+                    initPay(data.order, user._id, cartArray, selectedAddress )
+                    toast.success(data.message)
+                } else {
+                    toast.error(data.message)
+                }
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message)
+        }
       }
+      const initPay = (order, userId, cartArray, selectedAddress)=> {
+            const amountInPaise = order.amount * 100; // 49900
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+                // amount: order.amount,
+                amount: amountInPaise,
+                // currency: 'INR',
+                currency: order.currency,
+                name: "Order Payment",
+                description: "Order Payment",
+                order_id: order.id,
+                receipt: order.receipt,
+                handler: async (response)=> {
+                    // console.log(response)
+                    try {
+                    const payload = {
+                    userId,
+                    items: cartArray.map(item => ({
+                        product: item._id,
+                        quantity: item.quantity
+                    })),
+                    address: selectedAddress._id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature: response.razorpay_signature
+                };
+
+                const { data } = await axios.post('/api/order/verifyRazorpay', payload);
+                if (data.success) {
+                    setCart({})
+                    navigate('/my-orders');
+                } else {
+                    toast.error(data.message);
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error(error.message);
+            }}
+            }
+            const rzp = new window.Razorpay(options)
+            rzp.open()
+      }
+    
+      useEffect( ()=> {
+        if( user ){
+            getUserAddress()
+        }
+      }, [user] )
 
     return products.length > 0 && cart ? (
         <div className="flex flex-col md:flex-row py-16 max-w-6xl w-full px-6 mx-auto">
@@ -44,17 +133,17 @@ const Cart = () => {
                 </div>
 
                 {cartArray.map((product, index) => (
-                    <div key={index} className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3">
+                    <div key={index} className="grid grid-cols-[2fr_1fr_1fr] text-black items-center text-sm md:text-base font-medium pt-3">
                         <div className="flex items-center md:gap-6 gap-3">
                             <div onClick={ ()=>{
                               navigate(`/menu/${product.category.toLowerCase()}`);
                               scrollTo(0,0)
                             } } className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded">
-                                <img className="max-w-full h-full object-cover" src={product.image} alt={product.name} />
+                                <img className="max-w-full h-full object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/products/${product.image}` } alt={product.name} />
                             </div>
                             <div>
                                 <p className="hidden md:block font-semibold">{product.name}</p>
-                                <div className="font-normal text-gray-500/70">
+                                <div className="font-normal text-gray-black">
                                     {/* <p>Size: <span>{product.size || "N/A"}</span></p> */}
                                     <div className='flex items-center'>
                                         <p>Qty: { cart[product._id] }</p>
@@ -92,7 +181,7 @@ const Cart = () => {
                 <div className="mb-6">
                     <p className="text-sm font-medium uppercase">Delivery Address</p>
                     <div className="relative flex justify-between items-start mt-2">
-                        <p className="text-gray-500">{ selectedAddress ? `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state}, ${selectedAddress.country}` : "No address found" }</p>
+                        <p className="text-gray-500">{ selectedAddress ? `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state}, ${selectedAddress.country} - ${selectedAddress.zipcode}` : "No address found" }</p>
                         <button onClick={() => setShowAddress(!showAddress)} className="text-button hover:underline cursor-pointer">
                             Change
                         </button>
@@ -128,19 +217,22 @@ const Cart = () => {
 
                 <hr className="border-gray-300" />
 
-                <div className="text-gray-500 mt-4 space-y-2">
+                <div className="text-gray-800 mt-4 space-y-2">
                     <p className="flex justify-between">
                         <span>Price</span><span>{currency} {getCartAmount()}</span>
                     </p>
-                    <p className="flex justify-between">
+                    {/* <p className="flex justify-between">
                         <span>Shipping Fee</span><span className="text-green-600">Free</span>
+                    </p> */}
+                    <p className="flex justify-between text-green-600">
+                        <span>Delivery Charges ({currency} 50)</span><span>{currency} 50</span>
                     </p>
-                    <p className="flex justify-between">
+                    {/* <p className="flex justify-between">
                         <span>Tax (2%)</span><span>{currency} {getCartAmount()* 2 / 100}</span>
-                    </p>
+                    </p> */}
                     <p className="flex justify-between text-lg font-medium mt-3">
                         <span>Total Amount:</span><span>
-                          {currency} { getCartAmount() + getCartAmount()* 2 / 100 }</span>
+                          {currency} { getCartAmount() + 50 }</span>
                     </p>
                 </div>
 

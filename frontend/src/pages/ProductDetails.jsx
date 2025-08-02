@@ -44,7 +44,8 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
-                        <img src={thumbnail} alt="Selected product" />
+                        {/* <img src={`${import.meta.env.VITE_BACKEND_URL}/products/${product.image}` } className="max-h-64 w-full" alt="Selected product" /> */}
+                        <img src={`${import.meta.env.VITE_BACKEND_URL}/products/${product.image}` } className="w-full" alt="Selected product" />
                     </div>
                 </div>
 
@@ -69,13 +70,14 @@ const ProductDetails = () => {
                     <div className="mt-6">
                         {/* <p className="text-gray-500/70 line-through">MRP: { currency }{product.price}</p> */}
                         {/* <p className="text-2xl font-medium">MRP: { currency }{product.offerPrice}</p> */}
-                        <p className="text-2xl text-gray-800 font-medium">MRP: { currency } {product.price}</p>
+                        <p className="text-2xl text-gray-800 font-medium"> { currency } {product.price}</p>
                         {/* <span className="text-gray-500/70">(inclusive of all taxes)</span> */}
-                        <span className="text-gray-500/70">(Exclusive of taxes)</span>
+                        <span className="text-gray-500/70">(Inclusive of taxes)</span>
                     </div>
 
-                    {/* <p className="text-base font-medium mt-6">About Product</p>
-                    <ul className="list-disc ml-4 text-gray-500/70">
+                    <p className="text-xl mt-6">About Product</p>
+                    <p className=" text-black text-lg">{product.description}</p>
+                    {/* <ul className="list-disc ml-4 text-gray-500/70">
                         {product.description.map((desc, index) => (
                             <li key={index}>{desc}</li>
                         ))}

@@ -21,21 +21,31 @@ import SellerLayout from './pages/seller/SellerLayout'
 import AddProduct from './pages/seller/AddProduct'
 import ProductList from './pages/seller/ProductList'
 import Orders from './pages/seller/Orders'
+import DineIn from './pages/DineIn'
+import LoginDine from './components/LoginDine'
+import DineOrders from './pages/DineOrders'
+import AdminDineOrders from './pages/seller/AdminDineOrders'
+import DineOrdersStatus from './pages/DineOrdersStatus'
 
 const App = () => {
 
     const isSellerPath = useLocation().pathname.includes("seller") // checks whether seller contains in URL path
-    const { isSeller, showUserLogin } = useAppContext()
+    const isDinePath = useLocation().pathname.includes("dine") 
+    const { isSeller, showUserLogin, showDineUserLogin } = useAppContext()
     
   return (
     <div>
-      { isSellerPath ? null : <Navbar/> }
+      { isSellerPath || isDinePath ? null : <Navbar/> }
       { showUserLogin ? <Login/> : null }
+      { showDineUserLogin ? <LoginDine/> : null }
+
       <Toaster />
       
       <div>
         <Routes>
           <Route path='/' element={<Home/>} />
+          <Route path='/dine-in' element={<DineIn/>}/>
+          <Route path='/dine-order' element={<DineOrders/>}/>
           <Route path='/about' element={<About/>} />
           <Route path='/menu' element={<Menu/>} />
           <Route path='/gallery' element={<Gallery/>} />
@@ -46,14 +56,19 @@ const App = () => {
           <Route path='/menu/:category/:id' element={<ProductDetails />} />
           <Route path='/add-address' element={<AddAddress />}/>
           <Route path='/my-orders' element={<MyOrders/>} />
+          <Route path='/dine-orders' element={<DineOrdersStatus/>} />
           <Route path='/seller' element={ isSeller ? <SellerLayout/> : <SellerLogin/> }>
               <Route index element={ isSeller ? <AddProduct/> : null } />
               <Route path='product-list' element={<ProductList/>} />
               <Route path='orders' element={<Orders/>}/>
+              <Route path='dineorders' element={<AdminDineOrders/>}/>
           </Route>
         </Routes>
       </div>
-      { !isSellerPath && <Footer/> }
+
+      {/* { !isSellerPath && <Footer/> } */}
+            { isSellerPath || isDinePath ? null : <Footer/> }
+
     </div>
   )
 }

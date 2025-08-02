@@ -1,0 +1,16 @@
+{
+    "slider1": {"title": "" , "description":"" },
+    "about":{
+        "title": "About Us",
+        "section1":{
+        "title": "Our Story", 
+        "paragraph1": "URBN Smoke is a high-end dining experience specializing in authentic Texas-style smoked delicacies, with a spotlight on premium Black Angus beef.",
+        "paragraph2": "We combine time-honored smoking techniques with a modern, upscale atmosphere to deliver rich, bold flavors in every bite.",
+        "paragraph3": "From slow-smoked brisket to innovative chef-driven creations, URBN Smoke is where the soul of Texas BBQ meets refined taste."
+         },
+         "section2":{
+            "title": "Why Choose Us"
+            
+         }
+    }
+}

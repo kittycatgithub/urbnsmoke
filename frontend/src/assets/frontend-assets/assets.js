@@ -83,94 +83,94 @@ export const assets = {
 }
 
 export const menu_list = [
-  {
-    menu_name: "Salad",
-    menu_image: menu_1,
-    menu_path: "salad"
-  },
-  {
-    menu_name: "Rolls",
-    menu_image: menu_2,
-    menu_path: "rolls"
-  },
-  {
-    menu_name: "Deserts",
-    menu_image: menu_3,
-    menu_path: "deserts"
-  },
-  {
-    menu_name: "Sandwich",
-    menu_image: menu_4,
-    menu_path: "sandwich"
-  },
-  {
-    menu_name: "Cake",
-    menu_image: menu_5,
-    menu_path: "cake"
-  },
-  {
-    menu_name: "Pure Veg",
-    menu_image: menu_6,
-    menu_path: "pure-veg"
-  },
-  {
-    menu_name: "Pasta",
-    menu_image: menu_7,
-    menu_path: "pasta"
-  },
-  {
-    menu_name: "Noodles",
-    menu_image: menu_8,
-    menu_path: "noodles"
-  },
+  // {
+  //   menu_name: "Salad",
+  //   menu_image: menu_1,
+  //   menu_path: "salad"
+  // },
+  // {
+  //   menu_name: "Rolls",
+  //   menu_image: menu_2,
+  //   menu_path: "rolls"
+  // },
+  // {
+  //   menu_name: "Deserts",
+  //   menu_image: menu_3,
+  //   menu_path: "deserts"
+  // },
+  // {
+  //   menu_name: "Sandwich",
+  //   menu_image: menu_4,
+  //   menu_path: "sandwich"
+  // },
+  // {
+  //   menu_name: "Cake",
+  //   menu_image: menu_5,
+  //   menu_path: "cake"
+  // },
+  // {
+  //   menu_name: "Pure Veg",
+  //   menu_image: menu_6,
+  //   menu_path: "pure-veg"
+  // },
+  // {
+  //   menu_name: "Pasta",
+  //   menu_image: menu_7,
+  //   menu_path: "pasta"
+  // },
+  // {
+  //   menu_name: "Noodles",
+  //   menu_image: menu_8,
+  //   menu_path: "noodles"
+  // },
   {
     menu_name: "APPETIZERS",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/top-view-salted-french-fries-plate-with-ketchup_23-2148701466.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "appetizers"
   },
   {
     menu_name: "BURGER",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/delicious-burger-with-many-ingredients-isolated-white-background-tasty-cheeseburger-splash-sauce_90220-1266.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "burger"
   },
   {
     menu_name: "SANDWICHES",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/side-view-club-sandwich-with-salted-cucumbers-lemon-olives-round-white-plate_176474-3049.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "sandwiches"
   },
   {
     menu_name: "MAIN COURSE",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/side-view-casserole-with-sauces_140725-14095.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "main-course"
   },
   {
     menu_name: "SALAD",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/vegetables-salad-table_23-2148515515.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "salad-2"
   },
   {
     menu_name: "KIDS MEAL",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/premium-photo/delicious-big-meat-burger-flying_1297251-11222.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "kids-meal"
   },
   {
     menu_name: "MOCKTAIL & DRINKS",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/refreshing-strawberry-lime-mint-cocktail_23-2151961956.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "mocktail-and-drinks"
   },
   {
     menu_name: "EXTRAS",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/bowl-mexican-spices-top-view_23-2148224158.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "extras"
   },
   {
     menu_name: "DESSERT",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/free-photo/side-view-dessert-plate-with-tea-nuts-fruit-jam-white-wooden-background_176474-3859.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "dessert"
   },
   {
     menu_name: "BAR BQ",
-    menu_image: menu_8,
+    menu_image: "https://img.freepik.com/premium-photo/grill-with-meat-fire-flames-it_1045911-1160.jpg?uid=R159003840&ga=GA1.1.1591991109.1749796990&semt=ais_items_boosted&w=740",
     menu_path: "bar-bq"
   }
 ];
