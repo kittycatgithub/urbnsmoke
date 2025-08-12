@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const LoginDine = () => {
 
-    const {setUser, user,  axios, navigate, showDineUserLogin, setShowDineUserLogin, dineCart, setDineCart } = useAppContext()
+    const {setUser, user, dineUser, setDineUser, axios, navigate, showDineUserLogin, setShowDineUserLogin, dineCart, setDineCart } = useAppContext()
 
     const [state, setState] = useState("login");
     const [name, setName] = useState("");
@@ -13,13 +13,12 @@ const LoginDine = () => {
     const onSubmitHandler = async (event) => {
         try {
             event.preventDefault()
-            const { data } = await axios.post(`/api/dineuser/entry`, {
+            const { data } = await axios.post(`/api/dineuser/register`, {
                 name, mobile, dineCart
             })
             if( data.success ) {
-                navigate('/dine-order')
-                setUser(data.user)
-                console.log(user)
+                setDineUser(data.user)
+                console.log(dineUser)
                 setShowDineUserLogin(false)
                 toast.success("Successfully Logged In")
             } else {
@@ -36,7 +35,7 @@ const LoginDine = () => {
             <form onSubmit={ onSubmitHandler } onClick={ (e) => e.stopPropagation() } className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white">
             <p className="text-2xl font-medium m-auto">
                 {/* <span className="text-button">User</span> {state === "login" ? "Login" : "Sign Up"} */}
-                <span className="text-button">User</span> Entry
+                <span className="text-button">User</span> Entry 
             </p>
                 <div className="w-full">
                     <p>Name</p>
@@ -61,7 +60,7 @@ const LoginDine = () => {
             <button type="submit" className="bg-button hover:bg-blue-600 transition-all text-white w-full py-2 rounded-md cursor-pointer">
                 Start Ordering
             </button>
-            </form>
+          </form>
         </div>
     );
 };

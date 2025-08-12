@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const dineSchema = new mongoose.Schema({
     name: { type: String , required: true},
     mobile : { type : Number, required: true},
+    password: { type: String, required: true },
     dineCart: { type: Object, default: {} },
     dineOrder : { type : Object, default: {} }
 }, { minimize: false })

@@ -3,8 +3,10 @@ import { useAppContext } from '../context/AppContext'
 import { menu_list } from '../assets/frontend-assets/assets'
 import ProductCardDineIn from '../components/ProductCardDineIn'
 import MobileCartBar from '../components/MobileCartBar'
+import { useLocation } from 'react-router-dom'
 
 const DineIn = () => {
+
    const {navigate, products} = useAppContext()
       let appetizers = 0
       let burger = 0
@@ -84,11 +86,10 @@ const DineIn = () => {
     </div>
     <div className='mx-auto max-w-7xl mt-5 px-4 md:px-0 pb-10'>
         <p className='text-xl pb-5'>Appetizers</p>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 w-fit mx-auto'>
-                <div id='appetizers'> {
+        <div id='appetizers' className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 w-fit mx-auto'>
+               {
           products.map( (product, index)=> 
               product.category === "appetizers" && <ProductCardDineIn key={index} product={product}/>) }
-        </div>      
         </div>
     </div>
     <div className='mx-auto max-w-7xl px-4 md:px-0 pb-10'>

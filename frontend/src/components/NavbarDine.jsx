@@ -5,17 +5,20 @@ import { NavLink } from "react-router-dom"
 import { useAppContext } from "../context/AppContext"
 import toast from "react-hot-toast" 
 
-const Navbar = () => {
+const NavbarDine = () => {
     const [open, setOpen] = useState(false)
-    const { navigate, user, setUser, dineUser, setDineUser, setShowUserLogin, searchQuery, setSearchQuery, getCartCount, axios } = useAppContext()
+    const { navigate, user, setUser, dineUser, setDineUser, setShowDineUserLogin, searchQuery,
+         setSearchQuery, getCartCount, axios, getDineCartCount, getDineCartAmount, } = useAppContext()
+    
+    // console.log(dineUser, "In Navbar")
 
     const logout = async () => {
         try {
-            const { data } = await axios.get('/api/user/logout')
+            const { data } = await axios.get('/api/dineuser/logout')
             if( data.success ){
                 toast.success(data.message)
-                setUser(null)
-                navigate('/')
+                setDineUser(null)
+                navigate('/dine-in')
             } else {
                 toast.error(data.message)
             }
@@ -39,15 +42,14 @@ const Navbar = () => {
 
     return (
         <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
-
-            <NavLink to="/" onClick={ ()=> setOpen(false) }>
+            <NavLink to="/dine-in" onClick={ ()=> setOpen(false) }>
                 <img className="h-24 -mb-4 -mt-4" src={assets.logo} alt="logo" />
             </NavLink>
             {/* Desktop Menu */}
             <div className="hidden sm:flex items-center gap-8">
-                <NavLink to="/" className="hover:text-green-600">Home</NavLink>
+                <NavLink to="/dine-in" className="hover:text-green-600">Home</NavLink>
                 <NavLink to="/about" className="hover:text-green-600">About</NavLink>
-                <NavLink to="/all-menu" className="hover:text-green-600">Menu</NavLink>
+                {/* <NavLink to="/all-menu" className="hover:text-green-600">Menu</NavLink> */}
                 {/* <NavLink to="/gallery" className="hover:text-green-600">Gallery</NavLink> */}
                 <NavLink to="/contact" className="hover:text-green-600">Contact</NavLink>
                 {/* <NavLink to="/language" className="hover:text-green-600">Language</NavLink> */}
@@ -65,9 +67,13 @@ const Navbar = () => {
                     </svg>
                 </div>
 
-                <div onClick={()=> navigate('/cart')} className="relative cursor-pointer">
+                {/* <div onClick={()=> navigate('/cart')} className="relative cursor-pointer">
                     <img src={assets1.nav_cart_icon} alt="cart" className="w-6 h-6"/>
-                    <button className="absolute -top-2 -right-3 text-xs text-white bg-button w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-button w-[18px] h-[18px] rounded-full">{getDineCartCount()}</button>
+                </div>  */}
+                <div className="relative cursor-pointer">
+                    <img src={assets1.nav_cart_icon} alt="cart" className="w-6 h-6"/>
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-button w-[18px] h-[18px] rounded-full">{getDineCartCount()}</button>
                 </div> 
 
                 {/* <button className="cursor-pointer px-3 py-2 bg-button hover:bg-button-hover transition text-white rounded-full">
@@ -76,7 +82,7 @@ const Navbar = () => {
                 {/* <button className="cursor-pointer px-8 py-2 bg-button hover:bg-button-hover transition text-white rounded-full">
                     Language
                 </button> */}
-               {!user ? ( <button onClick={()=> setShowUserLogin(true)} className="cursor-pointer px-8 py-2 bg-button hover:bg-button-hover transition text-white rounded-full">
+               {!dineUser ? ( <button onClick={()=> setShowDineUserLogin(true)} className="cursor-pointer px-8 py-2 bg-button hover:bg-button-hover transition text-white rounded-full">
                     Login
                 </button>) : (
                     <div  className='relative group'>
@@ -92,7 +98,7 @@ const Navbar = () => {
             <div className="flex items-center gap-6 sm:hidden">
                 <div onClick={()=> navigate('/cart')} className="relative cursor-pointer">
                     <img src={assets1.nav_cart_icon} alt="cart" className="w-6 h-6"/>
-                    <button className="absolute -top-2 -right-3 text-xs text-white bg-button w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-button w-[18px] h-[18px] rounded-full">{getDineCartCount()}</button>
                 </div> 
                 <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu">
                 {/* Menu Icon SVG */} 
@@ -104,9 +110,9 @@ const Navbar = () => {
            {
             open && 
            (<div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-5 px-5 text-md md:hidden z-40`}>
-                <NavLink to="/" onClick={ ()=> setOpen(false) }>Home</NavLink>
+                <NavLink to="/dine-in" onClick={ ()=> setOpen(false) }>Home</NavLink>
                 <NavLink to="/about" onClick={ ()=> setOpen(false) }>About</NavLink>
-                <NavLink to="/all-menu" onClick={ ()=> setOpen(false) }>Menu</NavLink>
+                {/* <NavLink to="/all-menu" onClick={ ()=> setOpen(false) }>Menu</NavLink> */}
                 {/* <NavLink to="/gallery" onClick={ ()=> setOpen(false) }>Gallery</NavLink> */}
                 <NavLink to="/contact" onClick={ ()=> setOpen(false) }>Contact</NavLink>
                 {/* <NavLink to="/language" onClick={ ()=> setOpen(false) }>Language</NavLink> */}
@@ -115,17 +121,17 @@ const Navbar = () => {
                     <option value="ar">Arabic</option>
                 </select>
                 {
-                    user && <NavLink to="/my-orders" onClick={ ()=> setOpen(false) }>My Orders</NavLink>
+                    dineUser && <NavLink to="/my-orders" onClick={ ()=> setOpen(false) }>My Orders</NavLink>
                 }
                 
                 <button onClick={ ()=> setOpen(false) } className="cursor-pointer px-3 py-2 bg-button hover:bg-button-hover transition text-white rounded-full">
                     Order Now
                 </button>
                 {
-                    !user ? (
+                    !dineUser ? (
                         <button onClick={ ()=> {
                             setOpen(false);
-                            setShowUserLogin(true)
+                            setShowDineUserLogin(true)
                             } } className="cursor-pointer px-6 py-2 mt-2 bg-button hover:bg-button-hover transition text-white rounded-full text-sm">
                             Login
                         </button>
@@ -142,4 +148,4 @@ const Navbar = () => {
         </nav>
     )
 }
-export default Navbar
+export default NavbarDine

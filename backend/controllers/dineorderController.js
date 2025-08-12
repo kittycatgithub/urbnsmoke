@@ -7,7 +7,7 @@ import DineUser from '../models/DineUser.js'
 export const placeOrderCOD = async ( req , res ) => {
     try {
         const {userId, items , name, mobile } = req.body;
-
+        // console.log(userId)
         if( items.length === 0 ){
             return res.json({ success: false, message: "Invalid Data"  })
         } 

@@ -5,12 +5,12 @@ import toast from 'react-hot-toast'
 
 const DineOrdersStatus = () => {
     const [myOrders, setMyOrders] = useState([])
-    const { currency, axios, user } = useAppContext()
-    console.log(user._id)
+    const { currency, axios, dineUser, setDineUser } = useAppContext()
+    // console.log(dineUser)
 
     const fetchMyOrders = async () =>  {
       try {
-        const { data } = await axios.post('/api/dineorder/user', { userId: user._id })
+        const { data } = await axios.post('/api/dineorder/user', { userId: dineUser._id })
         if( data.success ){
           setMyOrders(data.orders)
           // toast.success(data.message)
@@ -22,10 +22,10 @@ const DineOrdersStatus = () => {
       }
     }
     useEffect( ()=> {
-      if( user ){
+      if( dineUser ){
          fetchMyOrders()
       }
-    },[user] )
+    },[dineUser] )
 
   // Code for counting time left
 
@@ -33,7 +33,7 @@ const DineOrdersStatus = () => {
 
   // Fetch orders once on mount and start polling
   useEffect(() => {
-    fetchMyOrders();
+    // fetchMyOrders();
     const interval = setInterval(fetchMyOrders, 10000); // poll every 10 seconds
     return () => clearInterval(interval);
   }, []);
@@ -93,8 +93,8 @@ const DineOrdersStatus = () => {
       </div>
       {
          myOrders.map( (order, index) => (
-          <div key={index} className='border border-gray-400 rounded-lg mb-1 p-4 py-5 max-w-4xl'>
-            <p className='flex justify-between md:items-center text-gray-400
+          <div key={index} className='border border-gray-400 rounded-lg mb-1 p-4 py-5 max-w-5xl'>
+            <p className='flex justify-between md:items-center text-gray-700
             md:font-medium max-md:flex-col'>
               <span>OrderId : {order._id}</span>
               <span>Payment : {order.paymentType}</span>
@@ -104,8 +104,8 @@ const DineOrdersStatus = () => {
               <div key={index} className={`relative bg-white text-gray-500/70 ${
                 order.items.length !== index + 1 && "border-b"
               } border-gray-300 flex flex-col md:flex-row md:items-center justify-between p-4
-              py-5 md:gap-16 w-full max-w-4xl`}>
-                <div className='flex items-center mb-4 md:mb-0'>
+              py-5 md:gap-5 w-full max-w-5xl`}>
+                <div className='flex items-center mb-4 md:mb-0 max-w-sm'>
                   <div className='bg-primary/10 rounded-lg'>
                     <img src={`${import.meta.env.VITE_BACKEND_URL}/products/${item.product.image}` } alt="" className='w-16 h-16' />
                   </div>
@@ -146,7 +146,7 @@ const DineOrdersStatus = () => {
                   <p >Quantity: {item.quantity || "1"}</p>
                   <p >Date: {new Date(order.createdAt).toLocaleDateString('en-GB')}</p>
                 </div>
-                <p className='text-black text-lg font-medium'>
+                <p className='text-gray-500 text-lg font-medium'>
                     {/* Amount: {currency} {item.product.offerPrice * item.quantity} */}
                     Amount: {currency} {item.product.price * item.quantity}
                 </p>

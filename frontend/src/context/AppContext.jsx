@@ -24,15 +24,17 @@ export const AppContextProvider = ({children}) => {
 
     const navigate = useNavigate()
     const [user, setUser] = useState( null )
-    // const [isSeller, setIsSeller] = useState(false)
+    const [dineUser, setDineUser] = useState(null)
+
     const [isSeller, setIsSeller] = useState(false)
     const [ showUserLogin, setShowUserLogin ] = useState(false) // Shows User Login Form
     const [cart, setCart] = useState({})
     const [dineCart, setDineCart] = useState({})
     const [products, setProducts] = useState([])
     const [searchQuery, setSearchQuery] = useState({})
+
     const [ showDineUserLogin, setShowDineUserLogin ] = useState(false) // Shows User Login Form
-        const [ showBill, setShowBill ] = useState(false)
+    const [ showBill, setShowBill ] = useState(false)
 
 
     // Fetch Seller Status
@@ -59,6 +61,21 @@ export const AppContextProvider = ({children}) => {
             }
         } catch (error) {
             setUser(null)
+        }
+    }
+
+    // Fetch User Auth Status, User Data and Cart Items
+    const fetchDineUser = async () => {
+       
+        try {
+            const { data } = await axios.get('/api/dineuser/is-auth');
+            if( data.success ){
+                setDineUser( data.user )
+                // console.log(data.user.dineCart)
+                setDineCart(data.user.dineCart)
+            }
+        } catch (error) {
+            setDineUser(null)
         }
     }
     // Fetch All Products
@@ -120,7 +137,7 @@ export const AppContextProvider = ({children}) => {
             dineCartData[itemId] = 1
         }
         setDineCart(dineCartData)
-        console.log(dineCart)
+        // console.log(dineCart)
         toast.success("Added To Cart")
     }
 
@@ -137,9 +154,9 @@ export const AppContextProvider = ({children}) => {
         setDineCart(dineCartData)
     }
 
-
     useEffect( ()=> {
         fetchUser()
+        fetchDineUser()
         fetchSeller()
         fetchProducts()
         // console.log(food_list)
@@ -161,6 +178,23 @@ export const AppContextProvider = ({children}) => {
             updateCart()
         }
     }, [cart] )
+    
+    // Update Database DineCart Items
+    useEffect( ()=> {
+        const updateDineCart = async () => {
+            try {
+            const { data } = await axios.post('/api/dinecart/update' , {dineCart})
+            if(!data.success ){
+                toast.error(data.message)
+            } 
+            } catch (error) {
+                toast.error(error.message)
+            }
+        }
+        if(dineUser){
+            updateDineCart()
+        }
+    }, [dineCart] )
     
     // Get Cart Item Count
     const getCartCount = () => {
@@ -204,7 +238,7 @@ export const AppContextProvider = ({children}) => {
     const value = { navigate, user, setUser, isSeller, setIsSeller, cart, setCart, showUserLogin, setShowUserLogin,
         products, currency, addToCart, updateCartItem, removeFromCart, searchQuery, setSearchQuery, getCartAmount, 
         getCartCount, axios, fetchProducts, t, i18n, dineCart,setDineCart, addToDineCart, removeFromDineCart, getDineCartCount,
-        getDineCartAmount, showDineUserLogin, setShowDineUserLogin,  showBill, setShowBill 
+        getDineCartAmount, showDineUserLogin, setShowDineUserLogin,  showBill, setShowBill , dineUser, setDineUser
      }
 
     return <AppContext.Provider value={value}> 
@@ -215,4 +249,3 @@ export const AppContextProvider = ({children}) => {
 export const useAppContext = () => {
     return useContext(AppContext)
 }
-

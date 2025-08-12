@@ -9,16 +9,16 @@ const ProductCardDineIn = ({product}) => {
     return product && (
         <div onClick={ ()=> {navigate(`/menu/${product.category.toLowerCase()}/${product._id}`);
             scrollTo(0,0)
-        } } className="border border-gray-500/20 rounded-md md:px-4 p-2 bg-white max-w-80 w-80 md:w-80 hover:shadow-xl hover:scale-110 transition">
-            <div className="flex flex-row gap-4">
+        } } className="border border-gray-500/20 rounded-md md:px-2 p-2 bg-white max-w-80 w-80 md:w-80 hover:shadow-xl hover:scale-105 transition">
+            <div className="flex flex-row gap-3">
                 <div className="group cursor-pointer flex items-center justify-center">
                 <img className="group-hover:scale-105 transition max-w-26 md:max-w-36 h-24" src={`${import.meta.env.VITE_BACKEND_URL}/products/${product.image}` } alt={product.name} />
             </div>
             <div className="text-gray-500/60 text-sm">
-                <p>{product.category}</p>
-                <p className="text-gray-700 font-medium text-lg truncate w-full">{product.name}</p>
+                {/* <p>{product.category}</p> */}
+                <p className="text-gray-700 font-medium text-[16px] w-full">{product.name}</p>
                 <div className="space-y-1 items-end justify-between">
-                    <p className="md:text-xl text-base font-medium text-gray-900">
+                    <p className="md:text-lg text-base font-medium text-gray-900">
                         {/* {currency}{product.offerPrice} <span className="text-gray-500/60 md:text-sm text-xs line-through">{currency}{product.price}</span> */}
                       {currency} {product.price}.00 
                     </p>
@@ -30,11 +30,11 @@ const ProductCardDineIn = ({product}) => {
                             </button>
                         ) : (
                             <div className="flex items-center justify-center gap-2 md:w-[130px] w-[180px] h-[34px] bg-indigo-500/25 rounded select-none">
-                                <button onClick={() => {removeFromDineCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
+                                <button onClick={() => {removeFromDineCart(product._id)}} className="cursor-pointer text-2xl px-2 h-full" >
                                     -
                                 </button>
                                 <span className="w-5 text-center">{dineCart[product._id]}</span>
-                                <button onClick={() => {addToDineCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
+                                <button onClick={() => {addToDineCart(product._id)}} className="cursor-pointer text-2xl px-2 h-full" >
                                     +
                                 </button>
                             </div>

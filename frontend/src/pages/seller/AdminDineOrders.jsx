@@ -54,8 +54,8 @@ const AdminDineOrders = () => {
     }
 
     return (
-        <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll">
-        <div className="md:p-10 p-4 space-y-4">
+        <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll ">
+        <div className="md:p-10 p-4 space-y-4 pb-96">
             { showBill && currentorders && <Bill order={currentorders}/>}
             <h2 className="text-lg font-medium">Orders List</h2>
             {dineorders.map((order, index) => (
@@ -72,18 +72,17 @@ const AdminDineOrders = () => {
                                         <span className="text-button"> x {item.quantity}</span>
                                     </p>
                                 {/* <p className="font-medium text-lg my-auto">{currency} {order.amount}</p> */}
-                                <p className="font-medium text-md my-auto">{currency} {item.product.price}</p>
+                                <p className="font-medium text-sm my-auto">{currency} {item.product.price}</p>
                                     </div>
-                                   
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     <div className="text-sm md:text-base text-black">
-                        <p className='text-black'>
+                        {/* <p className='text-black'>
                         {order.name}</p>
-                        <p>{order.mobile}</p>
+                        <p>{order.mobile}</p> */}
                     </div>
                     {/* <div className="text-sm md:text-base text-black/60">
                         <p className='text-black/80'>

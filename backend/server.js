@@ -12,6 +12,7 @@ import cartRouter from './routes/cartRoute.js';
 import path from 'path'
 import dineRouter from './routes/dineRoute.js';
 import dineorderRouter from './routes/dineorderRoute.js';
+import dinecartRouter from './routes/dinecartRoute.js';
 
 const app = express();                  // Created one app using express package
 const port = process.env.PORT || 4000   // Add port no. where App will start
@@ -19,7 +20,7 @@ const port = process.env.PORT || 4000   // Add port no. where App will start
 await connectDB()
 
 // Allow multiple origins
-const allowedOrigins = ["http://localhost:6173", "https://saudihotels.shop"]
+const allowedOrigins = ["http://localhost:6173", "https://saudihotels.shop", "http://46.202.164.11"]
 
 // Middleware confguration
 app.use(express.json())  // all requests coming to backend will be passed using json method
@@ -34,6 +35,7 @@ app.use('/api/user', userRouter)
 app.use('/api/seller', sellerRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/dinecart', dinecartRouter)
 app.use('/api/address', addressRouter)
 app.use('/api/order', orderRouter)
 app.use('/api/dineorder', dineorderRouter)

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 
-const authUser = async (req, res, next) => {
+const authDineUser = async (req, res, next) => {
     const {token} = req.cookies;
         if(!token){
             return res.json({ success: false, message: "Not Authorized" })
@@ -23,4 +23,4 @@ const authUser = async (req, res, next) => {
         return res.json({ success: false, message: error.message })
     }
 }
-export default authUser
+export default authDineUser

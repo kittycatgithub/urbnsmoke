@@ -7,8 +7,6 @@ const DineOrders = () => {
     const { dineCart, user, products, currency } = useAppContext()
     const [dineCartArray, setDineCartArray] = useState([])
     
-    // console.log(user.dineCart)
-
         const getDineCart = () => {
         let tempArray = []
         for(const key in dineCart){
@@ -21,7 +19,7 @@ const DineOrders = () => {
       }
       useEffect(()=> {
         getDineCart()
-      }, [])
+      }, [dineCart, products])
 
     return (
       <div>
@@ -32,10 +30,10 @@ const DineOrders = () => {
                     <table className="md:table-auto table-fixed w-full overflow-hidden">
                         <thead className="text-gray-900 text-sm text-left">
                             <tr>
-                                <th className="px-4 py-3 font-semibold truncate">Product</th>
-                                <th className="px-4 py-3 font-semibold truncate">Category</th>
-                                <th className="px-4 py-3 font-semibold truncate hidden md:block">Selling Price</th>
-                                <th className="px-4 py-3 font-semibold truncate">Quantity</th>
+                                <th className="px-4 py-3 font-semibold">Product</th>
+                                <th className="px-4 py-3 font-semibold hidden md:block">Category</th>
+                                <th className="px-4 py-3 font-semibold ">Price</th>
+                                <th className="px-4 py-3 font-semibold">Quantity</th>
                             </tr>
                         </thead>
                         <tbody className="text-sm text-gray-800">
@@ -48,15 +46,9 @@ const DineOrders = () => {
                                         <span className="truncate max-sm:hidden w-full">{product.name}</span>
                                     </td>
                                     <td className="px-4 py-3">{product.category}</td>
-                                    <td className="px-4 py-3 max-sm:hidden">{currency} {product.price}</td>
+                                    <td className="px-4 py-3 max-sm:hidden">{currency} {product.price * product.quantity}</td>
                                     <td className="px-4 py-3 max-sm:hidden"> {product.quantity}</td>
-                                    {/* <td className="px-4 py-3">
-                                        <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
-                                            <input type="checkbox" className="sr-only peer" defaultChecked={product.inStock} />
-                                            <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200"></div>
-                                            <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
-                                        </label>
-                                    </td> */}
+                                    
                                 </tr>
                             ))}
                         </tbody>
@@ -69,3 +61,11 @@ const DineOrders = () => {
     );
 };
 export default DineOrders
+
+{/* <td className="px-4 py-3">
+    <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
+        <input type="checkbox" className="sr-only peer" defaultChecked={product.inStock} />
+        <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200"></div>
+        <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
+    </label>
+</td> */}

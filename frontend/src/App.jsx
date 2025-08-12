@@ -26,16 +26,19 @@ import LoginDine from './components/LoginDine'
 import DineOrders from './pages/DineOrders'
 import AdminDineOrders from './pages/seller/AdminDineOrders'
 import DineOrdersStatus from './pages/DineOrdersStatus'
+import NavbarDine from './components/NavbarDine'
+import Dominos from './pages/Dominos'
 
 const App = () => {
 
     const isSellerPath = useLocation().pathname.includes("seller") // checks whether seller contains in URL path
     const isDinePath = useLocation().pathname.includes("dine") 
-    const { isSeller, showUserLogin, showDineUserLogin } = useAppContext()
+    const { isSeller, showUserLogin, showDineUserLogin, setShowDineUserLogin } = useAppContext()
     
   return (
     <div>
       { isSellerPath || isDinePath ? null : <Navbar/> }
+      {  isDinePath ? <NavbarDine/> : null }
       { showUserLogin ? <Login/> : null }
       { showDineUserLogin ? <LoginDine/> : null }
 
@@ -44,6 +47,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path='/' element={<Home/>} />
+          <Route path='/dominos' element={<Dominos/>} />
           <Route path='/dine-in' element={<DineIn/>}/>
           <Route path='/dine-order' element={<DineOrders/>}/>
           <Route path='/about' element={<About/>} />
@@ -61,7 +65,7 @@ const App = () => {
               <Route index element={ isSeller ? <AddProduct/> : null } />
               <Route path='product-list' element={<ProductList/>} />
               <Route path='orders' element={<Orders/>}/>
-              <Route path='dineorders' element={<AdminDineOrders/>}/>
+              <Route path='adminorders' element={<AdminDineOrders/>}/>
           </Route>
         </Routes>
       </div>

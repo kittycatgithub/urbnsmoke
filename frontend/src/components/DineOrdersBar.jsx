@@ -4,7 +4,7 @@ import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 
 const DineOrdersBar = () => {
-    const {getDineCartCount, getDineCartAmount, currency, navigate, axios, dineCart, setDineCart , user, products } = useAppContext()
+    const {getDineCartCount, getDineCartAmount, currency, navigate, axios, dineCart, setDineCart ,dineUser, products } = useAppContext()
     const [cartArray, setCartArray] = useState([])
     const getCart = (item) => {
         let tempArray = []
@@ -18,14 +18,14 @@ const DineOrdersBar = () => {
     useEffect( ()=> {
       getCart()
     }, [] )
-    console.log(user)
+    console.log(dineUser)
 
     const placeOrder = async () => {
       try {
           const {data} = await axios.post('/api/dineorder/cod', { 
-            userId: user._id,
-            name: user.name,
-            mobile: user.mobile,
+            userId: dineUser._id,
+            name: dineUser.name,
+            mobile: dineUser.mobile,
             items: cartArray.map( item => ({product: item._id, quantity: item.quantity})),
             })
           if(data.success){
@@ -37,6 +37,7 @@ const DineOrdersBar = () => {
               console.log(user._id,  "User ID")
           }
       } catch (error) {
+        toast.error("Login To Continue")
             console.log(error.message)
       }
     }
@@ -64,9 +65,7 @@ const DineOrdersBar = () => {
       
       <button
         className="bg-button text-white px-4 py-2 rounded font-medium active:scale-95 transition"
-        onClick={() => {placeOrder();
-          console.log("first")
-          
+        onClick={() => {placeOrder();          
         } }
       >
         Place Order

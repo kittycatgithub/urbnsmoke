@@ -3,7 +3,7 @@ import { assets1 } from "../assets/assets1";
 import { useAppContext } from "../context/AppContext";
 
 const MobileCartBar = () => {
-    const {getDineCartCount, getDineCartAmount, currency, setShowDineUserLogin } = useAppContext()
+    const {getDineCartCount, getDineCartAmount, currency, setShowDineUserLogin, navigate } = useAppContext()
     
   return (
     // <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 shadow-md flex justify-between items-center p-4 md:hidden z-50">
@@ -30,8 +30,9 @@ const MobileCartBar = () => {
         className="bg-button text-white px-4 py-2 rounded font-medium hover:scale-95 transition"
         onClick={() => {
           // navigate to cart page or open cart modal
-          setShowDineUserLogin(true)
+          // setShowDineUserLogin(true)
           // window.location.href = "/cart";
+          navigate('/dine-order')
         }}
       >
         View Cart
