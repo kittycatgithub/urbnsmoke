@@ -20,7 +20,7 @@ const port = process.env.PORT || 4000   // Add port no. where App will start
 await connectDB()
 
 // Allow multiple origins
-const allowedOrigins = ["http://localhost:6173", "https://saudihotels.shop", "http://46.202.164.11"]
+const allowedOrigins = ["http://localhost:6173", "https://saudihotels.shop", "http://46.202.164.11", "https://api.saudihotels.shop"]
 
 // Middleware confguration
 app.use(express.json())  // all requests coming to backend will be passed using json method
